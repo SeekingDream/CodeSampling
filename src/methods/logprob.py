@@ -1,6 +1,7 @@
 from .abstract_selector import AbstractSelector
 from .abstract_selector import AbstractExeSelector
 
+
 class LogProbSelector(AbstractSelector):
     def __init__(self, all_res, approach_name):
         super(LogProbSelector, self).__init__(all_res)
@@ -42,8 +43,8 @@ class LogProbEnsembleSelector(AbstractSelector):
 
 
 class ExeLogProbSelector(AbstractExeSelector):
-    def __init__(self, all_res, approach_name, exe_func, good_execution_result):
-        super(ExeLogProbSelector, self).__init__(all_res, exe_func, good_execution_result)
+    def __init__(self, all_res, approach_name, use_multi_assertions, good_execution_result):
+        super(ExeLogProbSelector, self).__init__(all_res, use_multi_assertions, good_execution_result)
         self.approach_name = approach_name
         self.dict_key = self.approach_name.split("-")[-1]
 
@@ -57,8 +58,8 @@ class ExeLogProbSelector(AbstractExeSelector):
 
 
 class ExeLogProbEnsembleSelector(AbstractExeSelector):
-    def __init__(self, all_res, approach_name, exe_func, good_execution_result):
-        super(ExeLogProbEnsembleSelector, self).__init__(all_res, exe_func, good_execution_result)
+    def __init__(self, all_res, approach_name, use_multi_assertions, good_execution_result):
+        super(ExeLogProbEnsembleSelector, self).__init__(all_res, use_multi_assertions, good_execution_result)
 
         self.approach_name = approach_name
         self.alpha = float(approach_name.split("#")[1])

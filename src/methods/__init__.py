@@ -6,4 +6,8 @@ from .logprob import LogProbSelector, LogProbEnsembleSelector
 from .logprob import ExeLogProbSelector, ExeLogProbEnsembleSelector
 from .random import RandomSelector
 from .random import ExeRandomSelector
+from .trace import TraceSelector
+from .mbr import MBRSelector
+
+
 

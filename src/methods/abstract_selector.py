@@ -208,6 +208,9 @@ class ExecutionDatabase:
 class AbstractSelector:
     def __init__(self, all_res: ExecutionDatabase):
         self.all_res = all_res
+        self.data = self.all_res.data
+
+
 
     def rank_code(self):
         pass
@@ -244,12 +247,25 @@ class AbstractSelector:
             return selected_examples
 
 
+def exe_selection_function(x, good_execution_result=0):
+    exec_res = x["execution_result"]
+    return exec_res[0] == good_execution_result
+
+
+def multi_exe_selection_function(x, good_execution_result=0):
+    exec_res = x["gen_execution_result_full"]
+    return sum([e[0] == good_execution_result for e in exec_res])
+
+
 class AbstractExeSelector(AbstractSelector):
-    def __init__(self, all_res, exe_func, good_execution_result):
+    def __init__(self, all_res, use_multi_assertions, good_execution_result):
         super(AbstractExeSelector, self).__init__(all_res)
-        self.exe_func = exe_func
+        self.use_multi_assertions = use_multi_assertions
         self.good_execution_result = good_execution_result
 
-
+        if not use_multi_assertions:
+            self.exe_func = exe_selection_function
+        else:
+            self.exe_func = multi_exe_selection_function
 
 

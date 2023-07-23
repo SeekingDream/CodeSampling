@@ -1,14 +1,9 @@
-# Copyright (c) Meta Platforms, Inc. and affiliates.
-
-import bashlex
 import collections
-import json
-import pickle
+import time
+
 import numpy as np
 import os
 import random
-from glob import glob
-from nltk.translate.bleu_score import sentence_bleu
 from tqdm import tqdm, trange
 import torch
 from argparse import ArgumentParser
@@ -25,11 +20,11 @@ from src.methods import LogProbEnsembleSelector
 from src.methods import ExeLogProbSelector
 from src.methods import ExeRandomSelector
 from src.methods import ExeLogProbEnsembleSelector
+from src.methods import TraceSelector
+from src.methods import MBRSelector
 
+from utils import evaluate_selection
 
-
-import fasttext
-from huggingface_hub import hf_hub_download
 
 STATIC_LOGPROPB_METHODS = [
     "sum_logprob", "avg_logprob",
@@ -60,44 +55,12 @@ def parse_args():
     parser = ArgumentParser()
     parser.add_argument("--tag", type=str, default="")
     parser.add_argument("--out_dir", type=str, default="./result_db")
-    parser.add_argument(
-        "--model",
-        default="codegen-2b",
-        type=str,
-        choices=[
-            "codegen-2b",
-            "codegen-2B-half",
-            "codegen-6B",
-            "codegen-6B-half",
-            "codegen-16B-half",
-            "incoder-1B",
-            "incoder-1B-half",
-            "incoder-6B",
-            "incoder-6B-half",
-            "codex001",
-            "codex002",
-            "codex-cushman",
-        ],
-    )
-    parser.add_argument(
-        "--dataset",
-        type=str,
-        default="codet_humaneval",
-        choices=[
-            "mbpp",
-            "spider",
-            "nl2bash",
-            "humaneval",
-            "codet_humaneval",
-            "mbpp_sanitized",
-            "mbpp_hyx",
-        ],
-    )
-    parser.add_argument("--num_samples_start", type=int, default=24)
-    parser.add_argument("--num_samples_end", type=int, default=25)
+    parser.add_argument("--model", default="codex001", type=str)
+    parser.add_argument("--dataset", type=str, default="codet_humaneval")
+    parser.add_argument("--min_num_samples", type=int, default=10)
+    parser.add_argument("--max_num_samples", type=int, default=11)
     parser.add_argument("--num_samples_gap", type=int, default=1)
-    parser.add_argument("--num_procs", type=int, default=1)
-    parser.add_argument("--num_bootstraps", type=int, default=1)
+    parser.add_argument("--num_bootstraps", type=int, default=100)
     parser.add_argument("--temperature", type=float, default=0.4)
     parser.add_argument("--max_tokens", type=int, default=512)
     parser.add_argument("--top_p", type=float, default=1.0)
@@ -144,29 +107,35 @@ def parse_args():
     return args
 
 
-def evaluate_selection(selected_dataset):
-    all_passed = [d["execution_result_full_pass"] for d in selected_dataset]
-    return sum(all_passed) / len(all_passed)
+
 
 
 def compute_acc(args):
     humaneval_good_execution_result = 0
-    data_path = f"{args.data_path}/seed-*/0-shot/*-{args.temperature}"
-    if args.top_p != 1.0:
-        data_path += f"-p{args.top_p}"
-    if args.max_tokens != 512:
-        data_path += f"-max{args.max_tokens}"
+    # data_path = f"{args.data_path}/seed-*/0-shot/*-{args.temperature}"
+    # if args.top_p != 1.0:
+    #     data_path += f"-p{args.top_p}"
+    # if args.max_tokens != 512:
+    #     data_path += f"-max{args.max_tokens}"
 
-    exe_res = ExecutionDatabase(
-        data_path,
-        args.data_split,
-        "humaneval",
-        tag=args.tag,
-        model=args.model,
-        verbose=args.verbose,
-        dataset=args.dataset,
-        no_rejection=args.no_rejection,
-    )
+    save_dir = "/home/simin/Project/CodeSampling/exe_db"
+    task_name = f"{args.model}_{args.dataset}_{args.no_rejection}.tar"
+    save_path = os.path.join(save_dir, task_name)
+    t1 = time.time()
+    exe_res = torch.load(save_path)
+    t2 = time.time()
+    print(t2 - t1)
+
+    # exe_res = ExecutionDatabase(
+    #     data_path,
+    #     args.data_split,
+    #     "humaneval",
+    #     tag=args.tag,
+    #     model=args.model,
+    #     verbose=args.verbose,
+    #     dataset=args.dataset,
+    #     no_rejection=args.no_rejection,
+    # )
 
     id_keys = list(exe_res.data.keys())
 
@@ -184,11 +153,11 @@ def compute_acc(args):
 
         step_results = collections.defaultdict(list)
         for sub_n_samples in trange(
-                args.num_samples_start, args.num_samples_end, args.num_samples_gap
+                args.min_num_samples, args.max_num_samples, args.num_samples_gap
         ):
             random.seed(args.seed)
             np.random.seed(args.seed)
-            for bootstrap_i in range(args.num_bootstraps):
+            for bootstrap_i in tqdm(range(args.num_bootstraps)):
                 ids = random.sample(id_keys, sub_n_samples)
                 # id_is = np.random.choice(list(range(len(id_keys))), size=sub_n_samples, replace=True)
                 # ids = [id_keys[i] for i in id_is]
@@ -200,13 +169,13 @@ def compute_acc(args):
         for k, v in step_results.items():
             acc_dict[crit].append(np.mean(v))
             std_dict[crit].append(np.std(v))
-    return (acc_dict, std_dict)
+    return acc_dict, std_dict
 
 
 def get_selector(
         criterion,
         exe_res: ExecutionDatabase,
-        mbpp_good_execution_result,
+        good_execution_result,
         use_multi_assertions=False
 ):
     '''
@@ -215,20 +184,16 @@ def get_selector(
     '''
     if "$" in criterion:
         criterion = criterion.split("$")[0]
-    secondary_key_function = None
-    if not use_multi_assertions:
-        exe_func = exe_selection_function
-    else:
-        exe_func = multi_exe_selection_function
 
     if criterion == "oracle":
         selector = OracleSelector(exe_res)
 
-    elif criterion == "mbr_exec":
-        selector = None
+    elif criterion.startswith("mbr_exec"):
+        selector = MBRSelector(exe_res, use_multi_assertions, good_execution_result, criterion)
 
     elif criterion == "our_trace_based":
-        selector = None
+        selector = TraceSelector(exe_res, use_multi_assertions)
+
         # sample_selection_function = our_function
         # secondary_key_function = our_function1
 
@@ -245,16 +210,16 @@ def get_selector(
         selector = LogProbEnsembleSelector(exe_res, criterion)
 
     elif criterion in EXE_LOGPROPB_METHODS:
-        selector = ExeLogProbSelector(exe_res, criterion, exe_func, mbpp_good_execution_result)
+        selector = ExeLogProbSelector(exe_res, criterion, use_multi_assertions, good_execution_result)
 
     elif criterion == "executability-random":
-        selector = ExeRandomSelector(exe_res, exe_func, mbpp_good_execution_result)
+        selector = ExeRandomSelector(exe_res, use_multi_assertions, good_execution_result)
 
     elif criterion.startswith("executability-avgreverselogprob-ensemble#"):
-        selector = ExeLogProbEnsembleSelector(exe_res, criterion, exe_func, mbpp_good_execution_result)
+        selector = ExeLogProbEnsembleSelector(exe_res, criterion, use_multi_assertions, good_execution_result)
 
     elif criterion.startswith("executability-sumreverselogprob-ensemble#"):
-        selector = ExeLogProbEnsembleSelector(exe_res, criterion, exe_func, mbpp_good_execution_result)
+        selector = ExeLogProbEnsembleSelector(exe_res, criterion, use_multi_assertions, good_execution_result)
 
     else:
         raise ValueError(f"Unknown criterion: {criterion}")
@@ -262,20 +227,12 @@ def get_selector(
     return selector
 
 
-def exe_selection_function(x, good_execution_result=0):
-    exec_res = x["execution_result"]
-    return exec_res[0] == good_execution_result
-
-
-def multi_exe_selection_function(x, good_execution_result=0):
-    exec_res = x["gen_execution_result_full"]
-    return sum([e[0] == good_execution_result for e in exec_res])
+def sort_dict_by_value(dictionary, index):
+    sorted_dict = dict(sorted(dictionary.items(), key=lambda item: item[1][index]))
+    return sorted_dict
 
 
 def main(args):
-    args.data_split = "test"
-    acc_dict, std_dict = compute_acc(args)
-
     if args.tag != "":
         out_path = Path(
             f"{args.out_dir}/{args.dataset}-{args.model}-temp{args.temperature}-{args.tag}"
@@ -285,11 +242,23 @@ def main(args):
             f"{args.out_dir}/{args.dataset}-{args.model}-temp{args.temperature}"
         )
     out_path.mkdir(parents=True, exist_ok=True)
+
+    args.data_split = "test"
+    args.criteria = ["mbr_exec"] + args.criteria
+    acc_dict, std_dict = compute_acc(args)
+
     torch.save(acc_dict, out_path / "acc.pt")
     torch.save(std_dict, out_path / "std.pt")
     print(f"saving to {out_path}")
-    for crit in args.criteria:
-        print(crit, f"{acc_dict[crit][-1]:.4f} {std_dict[crit][-1]:.2f}")
+
+    candidate_list = range(args.min_num_samples, args.max_num_samples, args.num_samples_gap)
+
+    for index, candidate_num in enumerate(candidate_list):
+        new_dict = sort_dict_by_value(acc_dict, index)
+        print(candidate_num)
+        for approach_name in new_dict:
+            print(approach_name, f"{new_dict[approach_name][index]:.4f} {std_dict[approach_name][index]:.2f}")
+        print('----------------------------------------------------------')
 
 
 if __name__ == "__main__":

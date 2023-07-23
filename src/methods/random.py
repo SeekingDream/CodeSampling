@@ -12,8 +12,8 @@ class RandomSelector(AbstractSelector):
 
 
 class ExeRandomSelector(AbstractExeSelector):
-    def __init__(self, all_res, exe_func, good_execution_result):
-        super(ExeRandomSelector, self).__init__(all_res, exe_func, good_execution_result)
+    def __init__(self, all_res, use_multi_assertions, good_execution_result):
+        super(ExeRandomSelector, self).__init__(all_res, use_multi_assertions, good_execution_result)
 
     def score_func(self, x):
         return x["not_degenerate"], self.exe_func(x, self.good_execution_result), random.random()

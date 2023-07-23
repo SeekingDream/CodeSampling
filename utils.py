@@ -29,6 +29,11 @@ def get_dataset(data_name):
     return dataset
 
 
+def evaluate_selection(selected_dataset):
+    all_passed = [d["execution_result_full_pass"] for d in selected_dataset]
+    return sum(all_passed) / len(all_passed)
+
+
 if __name__ == '__main__':
     for data_name in ["mbpp_santized", "humaneval"]:
         dataset = get_dataset(data_name)
