@@ -4,13 +4,11 @@
     <list default="true" id="88dd328d-0f8d-4ecc-8351-3c131588b6d1" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/../../CandidateAnalysis/post_addictional.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../VehicleAttack/dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/select_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/bakeup/select_code.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/methods/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/methods/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_cm_tmp.py" beforeDir="false" afterPath="$PROJECT_DIR$/_cm_tmp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/evaluate_sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate_sampling.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/methods/abstract_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/methods/abstract_selector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/methods/logprob.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/methods/logprob.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/methods/random.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/methods/random.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/methods/trace.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/methods/trace.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,16 +34,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "true",
-    "last_opened_file_path": "/Users/cm/PycharmProjects/Project/23Summer/CodeSampling/src/methods",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/cm/PycharmProjects/Project/23Summer/CodeSampling/src/methods&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/methods" />
@@ -58,7 +56,7 @@
       <recent name="$PROJECT_DIR$/coder_reviewer_reranking" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.select_code">
+  <component name="RunManager" selected="Python.evaluate_sampling">
     <configuration name="_cm_preprocess_res" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CodeSampling" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -81,7 +79,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="_tmp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="_cm_tmp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CodeSampling" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -94,7 +92,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/coder_reviewer_reranking/_tmp.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/_cm_tmp.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -103,7 +101,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="hyx_process_method" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="evaluate_sampling" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CodeSampling" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -111,12 +109,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/coder_reviewer_reranking" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/coder_reviewer_reranking/hyx_process_method.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/evaluate_sampling.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -171,18 +169,18 @@
     </configuration>
     <list>
       <item itemvalue="Python._cm_preprocess_res" />
+      <item itemvalue="Python._cm_tmp" />
+      <item itemvalue="Python.evaluate_sampling" />
       <item itemvalue="Python.select_code" />
       <item itemvalue="Python.utils" />
-      <item itemvalue="Python._tmp" />
-      <item itemvalue="Python.hyx_process_method" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.select_code" />
+        <item itemvalue="Python.evaluate_sampling" />
+        <item itemvalue="Python._cm_tmp" />
         <item itemvalue="Python._cm_preprocess_res" />
+        <item itemvalue="Python.select_code" />
         <item itemvalue="Python.utils" />
-        <item itemvalue="Python._tmp" />
-        <item itemvalue="Python.hyx_process_method" />
       </list>
     </recent_temporary>
   </component>
@@ -197,7 +195,8 @@
       <workItem from="1686363175324" duration="17591000" />
       <workItem from="1687398447004" duration="6205000" />
       <workItem from="1688348845631" duration="9290000" />
-      <workItem from="1689047330838" duration="40233000" />
+      <workItem from="1689047330838" duration="50921000" />
+      <workItem from="1690168188777" duration="9521000" />
     </task>
     <servers />
   </component>
@@ -240,7 +239,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/utils.py</url>
-          <line>34</line>
+          <line>39</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -255,18 +254,58 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/methods/trace.py</url>
-          <line>85</line>
+          <line>156</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/methods/trace.py</url>
-          <line>90</line>
+          <line>161</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/methods/logprob.py</url>
           <line>56</line>
           <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/methods/abstract_selector.py</url>
+          <line>202</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/_cm_tmp.py</url>
+          <line>98</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/_cm_tmp.py</url>
+          <line>37</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/_cm_tmp.py</url>
+          <line>78</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/methods/trace.py</url>
+          <line>154</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/methods/trace.py</url>
+          <line>155</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/methods/trace.py</url>
+          <line>142</line>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/methods/trace.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="98" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -275,9 +314,11 @@
     <SUITE FILE_PATH="coverage/CodeSampling$collect_zeroshot.coverage" NAME="collect_zeroshot Coverage Results" MODIFIED="1686364863534" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/coder_reviewer_reranking" />
     <SUITE FILE_PATH="coverage/CodeSampling$utils.coverage" NAME="utils Coverage Results" MODIFIED="1688448527837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CodeSampling$hyx_process_method.coverage" NAME="hyx_process_method Coverage Results" MODIFIED="1687399290158" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/coder_reviewer_reranking" />
-    <SUITE FILE_PATH="coverage/CodeSampling$_cm_preprocess_res.coverage" NAME="_cm_preprocess_res Coverage Results" MODIFIED="1690071607505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CodeSampling$_cm_preprocess_res.coverage" NAME="_cm_preprocess_res Coverage Results" MODIFIED="1690087661106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CodeSampling$_tmp.coverage" NAME="_tmp Coverage Results" MODIFIED="1688316118172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CodeSampling$generate.coverage" NAME="generate Coverage Results" MODIFIED="1686451656113" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/CodeSampling$select_code.coverage" NAME="select_code Coverage Results" MODIFIED="1690076318987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CodeSampling$select_code.coverage" NAME="select_code Coverage Results" MODIFIED="1690076984739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CodeSampling$_cm_tmp.coverage" NAME="_cm_tmp Coverage Results" MODIFIED="1690169005909" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CodeSampling$evaluate_sampling.coverage" NAME="evaluate_sampling Coverage Results" MODIFIED="1690177617353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

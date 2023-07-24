@@ -188,7 +188,7 @@ class ExecutionDatabase:
             ("execfull.pkl", "execution_result_full"),
             ("execfullpass.pkl", "execution_result_full_pass"),
             ("raw_trace.pkl", "raw_trace"),
-            ("gen.execfull.pkl", "gen_execution_result_full"),
+            # ("gen.execfull.pkl", "gen_execution_result_full"),
         ]
         for suffix, result_name in exec_list:
             for i, idx in self.data:
@@ -209,8 +209,6 @@ class AbstractSelector:
     def __init__(self, all_res: ExecutionDatabase):
         self.all_res = all_res
         self.data = self.all_res.data
-
-
 
     def rank_code(self):
         pass

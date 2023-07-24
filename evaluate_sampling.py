@@ -55,10 +55,10 @@ def parse_args():
     parser = ArgumentParser()
     parser.add_argument("--tag", type=str, default="")
     parser.add_argument("--out_dir", type=str, default="./result_db")
-    parser.add_argument("--model", default="codex001", type=str)
+    parser.add_argument("--model", default="codegen2b", type=str)
     parser.add_argument("--dataset", type=str, default="codet_humaneval")
-    parser.add_argument("--min_num_samples", type=int, default=10)
-    parser.add_argument("--max_num_samples", type=int, default=11)
+    parser.add_argument("--min_num_samples", type=int, default=50)
+    parser.add_argument("--max_num_samples", type=int, default=51)
     parser.add_argument("--num_samples_gap", type=int, default=1)
     parser.add_argument("--num_bootstraps", type=int, default=100)
     parser.add_argument("--temperature", type=float, default=0.4)
@@ -68,7 +68,7 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--grid_search_alpha", action="store_true", default=False)
     parser.add_argument("--ablate", action="store_true", default=False)
-    parser.add_argument("--no-rejection", action="store_true", default=False)
+    parser.add_argument("--no-rejection", action="store_true", default=True)
     parser.add_argument(
         "--use_generated_assertions", action="store_true", default=False
     )
@@ -106,12 +106,8 @@ def parse_args():
 
     return args
 
-
-
-
-
 def compute_acc(args):
-    humaneval_good_execution_result = 0
+    good_execution_result = 0
     # data_path = f"{args.data_path}/seed-*/0-shot/*-{args.temperature}"
     # if args.top_p != 1.0:
     #     data_path += f"-p{args.top_p}"
@@ -147,7 +143,7 @@ def compute_acc(args):
         selector = get_selector(
             crit,
             exe_res,
-            humaneval_good_execution_result,
+            good_execution_result,
             use_multi_assertions=args.use_generated_assertions,
         )
 
@@ -192,7 +188,7 @@ def get_selector(
         selector = MBRSelector(exe_res, use_multi_assertions, good_execution_result, criterion)
 
     elif criterion == "our_trace_based":
-        selector = TraceSelector(exe_res, use_multi_assertions)
+        selector = TraceSelector(exe_res, use_multi_assertions, good_execution_result)
 
         # sample_selection_function = our_function
         # secondary_key_function = our_function1
@@ -233,6 +229,11 @@ def sort_dict_by_value(dictionary, index):
 
 
 def main(args):
+    args.data_split = "test"
+    args.criteria = ["our_trace_based", "mbr_exec"] + args.criteria
+    acc_dict, std_dict = compute_acc(args)
+
+
     if args.tag != "":
         out_path = Path(
             f"{args.out_dir}/{args.dataset}-{args.model}-temp{args.temperature}-{args.tag}"
@@ -242,10 +243,6 @@ def main(args):
             f"{args.out_dir}/{args.dataset}-{args.model}-temp{args.temperature}"
         )
     out_path.mkdir(parents=True, exist_ok=True)
-
-    args.data_split = "test"
-    args.criteria = ["mbr_exec"] + args.criteria
-    acc_dict, std_dict = compute_acc(args)
 
     torch.save(acc_dict, out_path / "acc.pt")
     torch.save(std_dict, out_path / "std.pt")
