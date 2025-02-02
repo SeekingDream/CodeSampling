@@ -1,0 +1,71 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+env/
+pip-wheel-metadata/
+pip-log.txt
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+*.whl
+
+# C extensions
+*.so
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Pytest and coverage reports
+.coverage
+.tox/
+.nox/
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# MyPy type checking reports
+.mypy_cache/
+
+# IDE / Editor specific files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Logs and local environment settings
+*.log
+.envrc
+*.env
+.local/
+*.DS_Store
+*.swp
+*.swo
+
+# Linting and profiling files
+.pylint.d/
+*.prof
+
+# Docker and deployment related files
+docker-compose.override.yml
+*.dockerignore
+
+# Security-related files
+secrets.json
+*.key
+*.pem
+
+# Ignore Jupyter Notebook output if needed
+**/*.ipynb_checkpoints/
+
+# generated results
+.results/
+.dataset/
