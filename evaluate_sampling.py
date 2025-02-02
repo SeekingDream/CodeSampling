@@ -3,6 +3,16 @@ from utils import *
 import argparse
 import tempfile
 import jsonlines
+import ast, astor
+def extract_assert_statements(code_snippet):
+    tree = ast.parse(code_snippet)
+    assert_statements = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assert):
+            assert_source = astor.to_source(node)
+            if assert_source.find("assert") != -1:
+                assert_statements.append(assert_source)
+    return assert_statements
 
 def evaluate(dataset, sample_num, sample_dir, save_dir):
     dataset_list = dataset.to_list()
@@ -21,7 +31,8 @@ def evaluate(dataset, sample_num, sample_dir, save_dir):
         file_id = str(data.data_id).replace('/', '-')
         task_dir = os.path.join(sample_dir, file_id)
 
-        std_test_cases = data.test_cases
+        std_test_cases = extract_assert_statements(data.test_cases)
+        head = data.test_cases[:data.test_cases.find('assert')]
         sample_execution_results = []
         all_sample_execution_results = []
 
@@ -30,7 +41,7 @@ def evaluate(dataset, sample_num, sample_dir, save_dir):
                 sample_path = os.path.join(task_dir, f"sample_{i}.py")
                 with open(sample_path, 'r') as r:
                     code = r.read()
-                code += ('\n\n\n'+single_test_case)
+                code += ('\n\n\n'+head+single_test_case)
                 with tempfile.TemporaryDirectory() as temp_dir:                
                     temp_file_path = os.path.join(temp_dir, "test_sample_{i}.py")
                     with open(temp_file_path, "w") as f:
